@@ -8,7 +8,7 @@ services:
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
       - ./app:/var/www/html/app
     ports:
-      - 80:80
+      - "80:80"
     networks:
       - network
     depends_on:
@@ -17,8 +17,13 @@ services:
   php:
     build: ./
     container_name: php_fpm
+    environment:
+      - XDEBUG_START_WITH_REQUEST=yes
+      - XDEBUG_DISCOVER_CLIENT_HOST=false
     volumes:
       - ./app:/var/www/html/app
+    ports:
+      - "9001:9000" # xdebug
     networks:
       - network
 
@@ -31,7 +36,7 @@ services:
       - MYSQL_ROOT_PASSWORD=admin
       - MYSQL_DATABASE=labprog
     ports:
-      - 3306:3306
+      - "3306:3306"
     networks:
       - network
 

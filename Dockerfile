@@ -8,6 +8,10 @@ RUN apt-get update && apt-get install -y curl vim unzip
 RUN docker-php-ext-install pdo pdo_mysql mysqli
 RUN docker-php-ext-enable pdo_mysql
 
+# Install xDebug
+RUN pecl install xdebug-3.2.1 \
+    && docker-php-ext-enable xdebug
+
 # Install composer
 COPY --from=composer/composer:latest-bin /composer /usr/bin/composer
 
