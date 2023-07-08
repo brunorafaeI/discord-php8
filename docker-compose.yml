@@ -1,0 +1,39 @@
+version: '3'
+services:
+
+  web:
+    image: nginx:latest
+    container_name: php_nginx
+    volumes:
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./app:/var/www/html/app
+    ports:
+      - 80:80
+    networks:
+      - network
+    depends_on:
+      - php
+
+  php:
+    build: ./
+    container_name: php_fpm
+    volumes:
+      - ./app:/var/www/html/app
+    networks:
+      - network
+
+  db:
+    image: mysql:8-debian
+    container_name: php_mysql
+    volumes:
+      - ./docker/mysql/data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin
+      - MYSQL_DATABASE=labprog
+    ports:
+      - 3306:3306
+    networks:
+      - network
+
+networks:
+  network:
