@@ -7,3 +7,7 @@ if (!defined('ROOT_DIR')) {
     define('ROOT_DIR', dirname(__DIR__));
   }  
 }
+
+if (!defined('ASSET_DIR')) {
+    define('ASSET_DIR', dirname(__DIR__) . "/web");
+}

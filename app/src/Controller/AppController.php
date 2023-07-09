@@ -13,7 +13,8 @@ class AppController extends AbstractController
   #[Route("/", RouteMethod::GET)]
   public function homePage(Request $request, Response $response)
   {
-    return $response->setContent("Welcome to my home page.")
+    $template = file_get_contents(ROOT_DIR . '/web/views/home/index.php');
+    return $response->setContent($template)
       ->send();
   }
 }
