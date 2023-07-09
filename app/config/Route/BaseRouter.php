@@ -1,65 +1,69 @@
 <?php
 
-namespace App\Route;
+namespace Config\Route;
+
+use Common\Attributes\Route;
+use Common\Http\AppResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 abstract class BaseRouter
 {
-  protected static $routes = [];
+  protected static array $routes = [];
 
-  public static function get($path, $callback)
+  public static function init(): void
   {
-    self::$routes['GET'][$path] = $callback;
-  }
+    $requestMethod = $_SERVER['REQUEST_METHOD'];
+    $requestUri = $_SERVER['REQUEST_URI'];
 
-  public static function post($path, $callback)
-  {
-    self::$routes['POST'][$path] = $callback;
-  }
-
-  public static function init()
-  {
-    $method = $_SERVER['REQUEST_METHOD'];
-    $request_uri = $_SERVER['REQUEST_URI'];
-
-    if (isset(self::$routes[$method])) {
-      $router = self::$routes[$method];
-
-      foreach ($router as $path => $callback) {
-        if ($request_uri === $path) {
-
-          if (is_callable($callback)) {
-            $callback();
-          }
-
-          if (is_array($callback)) {
-            self::handleCallback($callback);
-          }
-
-        } else if (is_string($callback)) {
-          $parts = explode('@', $callback);
-          self::handleCallback($parts);
-        } 
+    foreach (self::$routes as $row) {
+      $route = $row['route'];
+      if ($route->getMethod() === $requestMethod && $route->getPath() === $requestUri) {
+        self::handleCallback([$row['class'], $row['method']]);
+        return;
       }
-    } else {
-      echo "404 - Not Found";
     }
-    
+    echo '404 - Not Found';
   }
 
-  private static function handleCallback($callback)
+  private static function handleCallback($callback): void
   {
-    if (is_array($callback)) {
-      $controllerName = $callback[0];
-      $methodName = $callback[1];
+    is_callable($callback)
+      ? $callback()
+      : self::handleControllerCallback($callback);
+  }
 
-      if (class_exists($controllerName)) {
-        $controller = new $controllerName();
+  private static function handleControllerCallback(array $callback): void
+  {
+    [$controllerName, $methodName] = $callback;
 
-        if (method_exists($controller, $methodName)) {
-          $controller->$methodName();
-        }
+    if (class_exists($controllerName)) {
+      $controller = new $controllerName();
+
+      if (method_exists($controller, $methodName)) {
+        $controller->$methodName(
+          Request::createFromGlobals(),
+          new AppResponse()
+        );
       }
     }
   }
 
+  public static function register(string $class): void
+  {
+    $reflection = new \ReflectionObject(new $class());
+
+    foreach ($reflection->getMethods() as $method) {
+      $attributes = $method->getAttributes(Route::class, \ReflectionAttribute::IS_INSTANCEOF);
+
+      foreach ($attributes as $attribute) {
+        $route = $attribute->newInstance();
+
+        self::$routes[] = [
+          "route" => $route,
+          "class" => $class,
+          "method" => $method->getName()
+        ];
+      }
+    }
+  }
 }

@@ -2,20 +2,18 @@
 
 namespace App\Entity;
 
-use Common\Util\StringUtil;
+use Common\Utils\StringUtil;
 
 abstract class BaseEntity
 {
-
   public function __construct()
   {
     $args = current(func_get_args());
     $this->validateProperty($args);
   }
 
-  private function validateProperty($properties)
+  private function validateProperty($properties): void
   {
-
     if (is_array($properties)) {
 
       foreach ($properties as $key => $value) {
@@ -36,5 +34,6 @@ abstract class BaseEntity
     if (property_exists($this, $prop)) {
       return $this->$prop;
     }
+    return false;
   }
 }

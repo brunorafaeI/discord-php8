@@ -4,7 +4,7 @@ namespace Config\Database;
 
 class Connection
 {
-  private static $instance;
+  private static ?\PDO $instance = null;
 
   private function __construct()
   {
@@ -18,7 +18,7 @@ class Connection
     try {
         self::$instance = new \PDO($dsn, $username, $password);
         self::$instance->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-    } catch (PDOException $e) {
+    } catch (\PDOException $e) {
         die("Failed to connect to database: " . $e->getMessage());
     }
 
@@ -27,7 +27,6 @@ class Connection
   public static function getInstance(): \PDO
   {
     if (!self::$instance) { new self(); }
-
     return self::$instance;
   }
 }
