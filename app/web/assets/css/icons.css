@@ -1,0 +1,23 @@
+.icon {
+  height: 26px;
+  width: 26px;
+  transition: all 0.2s;
+}
+
+.icon:hover {
+  transform: scale(1.1);
+}
+
+/* a .icon {
+  display: flex;
+} */
+
+.icon-home {
+}
+
+
+.icon-logout {
+}
+
+.icon-person {
+}

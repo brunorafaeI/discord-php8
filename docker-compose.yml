@@ -23,7 +23,7 @@ services:
     volumes:
       - ./app:/var/www/html/app
     ports:
-      - "9001:9000" # xdebug
+      - "9002:9000" # xdebug
     networks:
       - network
 

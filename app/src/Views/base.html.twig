@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+  <title>Home</title>
+  <link rel="stylesheet" type="text/css" href="/assets?css=home">
+  
+  <!-- Include the JS for AG Grid -->
+  <script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.noStyle.js"></script>
+  <!-- Include the core CSS, this is needed by the grid -->
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/ag-grid-community/styles/ag-grid.css"/>
+  <!-- Include the theme CSS, only need to import the theme you are going to use -->
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/ag-grid-community/styles/ag-theme-alpine.css"/>
+  
+  {% block styles %}{% endblock %}
+</head>
+
+<body>
+  <header>
+    <h1>Platform Event</h1>
+    
+    <nav>
+      <ul>
+        <li class="icon">
+          <a href="/">{{ icons.home|raw }}</a>
+        </li>
+  
+        {% if user.userType is not null and user.userType == 'admin' %}
+          <li><a class="register-event" href="/event/register">Registrar evento</a></li>
+        {% endif %}
+  
+        {% if user is not null and user|length %}
+          <li class="icon"><a href="/users/profile">{{ icons.person|raw }}</a></li>
+          <li class="icon"><a href="#" onclick="OBJLogin.logout()">{{ icons.logout|raw }}</a></li>
+        {% else %}
+          <li class="icon"><a href="/login">{{ icons.login|raw }}</a></li>
+        {% endif %}
+        
+      </ul>
+    </nav>
+  </header>
+
+  <!-- MAIN -->
+  <main class="container">
+    {% block main %}{% endblock %}
+  </main>
+  
+  <footer>
+    Todos os direitos reservados - {{ "now"|date("Y") }}
+  </footer>
+
+  <!-- JAVASCRIPT -->
+  <script src="/assets?js=login"></script>
+  {% block scripts %}{% endblock %}
+
+  <script type="module">
+    import Typebot from '/assets?js=typebot'
+
+    Typebot.initBubble({
+      typebot: "spike-s9nvhm3",
+      apiHost: "http://localhost:3001",
+      previewMessage: {
+        message: "Posso ajudar?",
+        autoShowDelay: 5000,
+        avatarUrl:
+          "http://localhost:9000/typebot/public/typebots/clk2v5s3r000dv18ris9nvhm3/hostAvatar?v=1689379134888",
+      },
+      theme: {
+        button: { backgroundColor: "#ff6600" },
+        chatWindow: { backgroundColor: "#ffffff" },
+      },
+    });
+  </script>
+
+</body>
+</html>

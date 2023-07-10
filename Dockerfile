@@ -2,11 +2,11 @@ FROM php:8.2-fpm
 
 WORKDIR /var/www/html/app
 
-RUN apt-get update && apt-get install -y curl vim unzip
+RUN apt-get update && apt-get install -y libzip-dev curl vim unzip
 
 # Add and enable PHP-PDO
-RUN docker-php-ext-install pdo pdo_mysql mysqli
-RUN docker-php-ext-enable pdo_mysql
+RUN docker-php-ext-install pdo pdo_mysql mysqli zip
+RUN docker-php-ext-enable pdo_mysql zip
 
 # Install xDebug
 RUN pecl install xdebug-3.2.1 \
@@ -17,7 +17,7 @@ COPY --from=composer/composer:latest-bin /composer /usr/bin/composer
 
 RUN usermod -u 1000 www-data
 
-COPY --chown=www-data:www-data . /var/www/html/app
+COPY --chown=www-data:www-data . /usr/src/app
 
 USER www-data
 

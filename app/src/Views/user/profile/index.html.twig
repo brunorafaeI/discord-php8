@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block styles %}
+  <link rel="stylesheet" href="/assets?css=profile">
+{% endblock %}
+
+{% block main %}
+<section class="profile-container">
+
+  <section class="user-profile">
+    {% if user is defined %}
+      <div class="user-header">
+        <h3>Meu profile</h3>
+        <img class="user-avatar" src="/assets?png=user" title="User Image" alt="user">
+      </div>
+
+      <div class="user-body">
+
+        {% if user.userType != 'admin' %}
+          <div class="button-admin">
+            <a href="/admin"><button class="btn-admin">Painel admin</button></a>
+          </div>
+        {% endif %}
+        
+        <div class="user-info">
+          <p><strong>Nome: </strong>{{ user.name }}</p>
+          <p><strong>E-mail: </strong>{{ user.email }}</p>
+          <p><strong>Função: </strong>{{ user.userType }}</p>
+        </div>
+        
+      </div>
+
+    {% endif %}
+    
+  </section>
+
+  <section class="event-list">
+    <h3>Eventos registrados:</h3>
+    <div id="event-grid" class="ag-theme-alpine" style="width:calc(45vw + 68px);height:320px;"></div>
+  </section>
+  
+</section>
+{% endblock %}
+
+{% block scripts %}
+  <script src="/assets?js=event-grid"></script>
+{% endblock %}

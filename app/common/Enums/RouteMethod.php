@@ -4,6 +4,6 @@ namespace Common\Enums;
 
 enum RouteMethod
 {
-  case GET;
-  case POST;
+    case GET;
+    case POST;
 }

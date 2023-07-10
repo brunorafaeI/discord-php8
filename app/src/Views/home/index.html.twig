@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+  <section class="event-container">
+    
+    <div class="event-content">
+      <h2 class="title">Principais eventos</h2>
+
+      <div class="event-table"></div>
+    </div>
+
+    <div class="event-search">
+      <form class="search-form" action="" method="GET">
+        <label for="query"></label>
+        <input class="search-form-text" type="text" id="query" name="query" placeholder="Search events" />
+        <button class="btn btn-search" type="submit"><i class="icon">{{ icons.search|raw }}</i></button>
+      </form>
+    </div>
+
+  </section>
+{% endblock %}
