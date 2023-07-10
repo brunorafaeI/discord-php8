@@ -8,7 +8,6 @@ use Common\Enums\RouteMethod;
 use Common\Http\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\String\Exception\InvalidArgumentException;
 
 class LoginController extends AbstractController
 {
@@ -31,7 +30,9 @@ class LoginController extends AbstractController
     }
     
     $repository = $this->getRepository(UserEntity::class);
-    $userFound = $repository->findBy($loginData);
+    $userFound = $repository->findBy([
+      "email" => $loginData['email']
+    ]);
     
     if (count($userFound)) {
       if ($userFound['password'] !== $loginData['password']) {
