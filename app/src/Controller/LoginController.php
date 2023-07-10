@@ -22,15 +22,23 @@ class LoginController extends AbstractController
   public function loginForm(Request $request, Response $response)
   {
     $loginData = json_decode($request->getContent(), true);
-
+    $erroMessage = "Email/password invalidos, tente novamente!";
+    
     if (empty($loginData['email']) || empty($loginData['password'])) {
-      throw new InvalidArgumentException();
+      return $response->json([
+        "message" => $erroMessage
+      ]);
     }
     
     $repository = $this->getRepository(UserEntity::class);
     $userFound = $repository->findBy($loginData);
     
     if (count($userFound)) {
+      if ($userFound['password'] !== $loginData['password']) {
+        return $response->json([
+          "message" => $erroMessage
+        ]);
+      }
       $_SESSION['user'] = serialize($userFound);
     }
     

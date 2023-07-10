@@ -12,10 +12,10 @@ const OBJLogin = {
         })
         
         if (response.ok) {
-          const { email } = await response.json()
+          const { message } = await response.json()
           
-          if (!email) { 
-            alert("Email/password invalidos, tente novamente!")            
+          if (message) { 
+            alert(message)            
             return formLogin.reset()
           }
  
