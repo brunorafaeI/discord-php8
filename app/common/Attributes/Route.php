@@ -8,7 +8,7 @@ use Common\Enums\RouteMethod;
 readonly class Route
 {
   public function __construct(
-    private string $path, 
+    private string $path,
     private RouteMethod $method
   ) { }
 

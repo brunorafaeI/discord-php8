@@ -6,6 +6,8 @@ use App\Controller\AppController;
 use App\Controller\LoginController;
 use App\Controller\UserController;
 
+session_start();
+
 abstract class Router extends BaseRouter
 {
   public static function routes(): void

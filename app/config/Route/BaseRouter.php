@@ -13,7 +13,7 @@ abstract class BaseRouter
   public static function init(): void
   {
     $requestMethod = $_SERVER['REQUEST_METHOD'];
-    $requestUri = $_SERVER['REQUEST_URI'];
+    $requestUri = current(explode("?", $_SERVER['REQUEST_URI']));
 
     foreach (self::$routes as $row) {
       $route = $row['route'];

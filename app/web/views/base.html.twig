@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+  <title>Home</title>
+  <link rel="stylesheet" type="text/css" href="/assets?css=home">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  
+  {% block styles %}{% endblock %}
+</head>
+
+<body>
+  <header>
+    <h1>Platform Event</h1>
+    <nav>
+      <ul>
+        <li><a href="/"><img class="home-page" src="/assets?img=home.png" title="Home" alt="home"></a></li>
+  
+        {% if user.userType is not null and user.userType == 'admin' %}
+          <li><a class="register-event" href="/event/register">Registrar evento</a></li>
+        {% endif %}
+  
+        {% if user is not null and user|length %}
+          <li><a href="/users/profile"><img class="perfil-img" src="/assets?img=perfil.png" title="Profile"></a></li>
+          <li><a href="#" onclick="OBJLogin.logout()"><img class="leave-img" src="/assets?img=sair.png" title="SignOut"></a></li>
+        {% else %}
+          <li><a href="/login">Login</a></li>
+        {% endif %}
+        
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    {% block main %}{% endblock %}
+  </main>
+  
+  <footer>
+    Todos os direitos reservados - {{ "now"|date("Y") }}
+  </footer>
+
+  <!-- JAVASCRIPT -->  
+  {% block scripts %}
+    <script src="/assets?js=login"></script>
+  {% endblock %}
+</body>
+</html>

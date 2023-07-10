@@ -12,20 +12,23 @@ use Symfony\Component\HttpFoundation\Response;
 class UserController extends AbstractController
 {
   #[Route("/users", RouteMethod::GET)]
-  public function getUser(Request $request, Response $response): Response
+  public function userIndex(Request $request, Response $response): Response
   {
+    $idUser = $request->get('idUser');
+
+    if (!$idUser) {
+      throw new \InvalidArgumentException("Invalid idUser parameter.");
+    }
+
     $repository = $this->getRepository(UserEntity::class);
-    $userFound = $repository->find(1);
+    $userFound = $repository->find($idUser);
 
     return $response->setStatusCode(200)->json($userFound);
   }
 
-  #[Route("/users", RouteMethod::POST)]
-  public function createUser(Request $request, Response $response): Response
+  #[Route("/users/profile", RouteMethod::GET)]
+  public function userProfile(Request $request, Response $response): void
   {
-    $repository = $this->getRepository(UserEntity::class);
-    $userFound = $repository->findAll();
-
-    return $response->setStatusCode(200)->json($userFound);
+    $response->render('user/profile/index.html.twig');
   }
 }

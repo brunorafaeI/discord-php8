@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block styles %}
+  <link rel="stylesheet" href="/assets?css=profile">
+{% endblock %}
+
+{% block main %}
+<section>
+  <h2>User Profile</h2>
+  <div class="info-users">
+
+    <div class="imagem">
+      <img class="img-user" src="/assets?img=user.png" title="User Image" alt="user">
+    </div>
+    
+    {% if user is defined %}
+      <p><span>Name: </span>{{ user.name }}</p>
+      <p><span>Email: </span>{{ user.email }}</p>
+      <p><span>User Type: </span>{{ user.userType }}</p>
+
+      {% if user.userType == 'admin' %}
+        <a href="/admin"><button class="btn-typeuser">Admin Pannel</button></a>
+        <a href="/event"><button class="btn-typeuser">Event List</button></a>
+      {% endif %}
+   
+    {% endif %}
+    
+  </div>
+  <br>
+  <h3>Registered Events:</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Event Title</th>
+        <th>Event Date</th>
+        <th>Reviews</th>
+        <th>Delete Event</th>
+      </tr>
+    </thead>
+    <tbody>
+    
+    {% if event is defined %}
+      <tr>
+        <td>
+          {{ event.title }}
+        </td>
+        <td>
+          {{ event.date|date('d/m/Y')}}
+        </td>
+        <td><a id="review" href="/event/review?eventId=" {{ event.id }}>Reviews</a></td>
+        <td>
+          <form action="#" name="form_event">
+            <input type="hidden" name="event_id" value={{ event.id }}>
+            <button class="btn-deleteevent" type="submit" title="Delete">
+              <img class="img-delete" src="/assets?img=delete.png" title="Delete Event" alt="">
+            </button>
+          </form>
+        </td>
+      </tr>
+    {% endif %}
+    
+    </tbody>
+  </table>
+  <p>No registered events.</p>
+</section>
+{% endblock %}

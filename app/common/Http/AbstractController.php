@@ -27,7 +27,6 @@ abstract class AbstractController
     try {
       $repository = match ($class) {
         'UserEntity' => new UserRepository(Connection::getInstance()),
-        'PostEntity' => new PostRepository(Connection::getInstance()),
         default => null
       };
     } catch (\InvalidArgumentException $e) {

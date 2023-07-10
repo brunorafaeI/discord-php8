@@ -118,7 +118,7 @@ section {
 
 .info-users {
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   background-color: #f1f1f1;
   border-radius: 20px;
   padding: 40px;
