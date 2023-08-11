@@ -52,6 +52,9 @@ class AppResponse extends Response
         $user = unserialize($_SESSION['user'] ?? "");
         $icons = AssetFileReader::getAllIcons();
 
-        echo $twig->render($template, array_merge($variables, ['user' => $user, 'icons' => $icons]));
+        echo $twig->render(
+            $template,
+            array_merge($variables, ['user' => $user, 'icons' => $icons])
+        );
     }
 }

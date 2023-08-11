@@ -3,6 +3,8 @@
 namespace App\Controllers;
 
 use App\Models\User\UserModel;
+use Common\Attributes\Get;
+use Common\Attributes\Post;
 use Common\Attributes\Route;
 use Common\Enums\RouteMethod;
 use Config\Route\AbstractController;
@@ -11,13 +13,13 @@ use Symfony\Component\HttpFoundation\Response;
 
 class LoginController extends AbstractController
 {
-    #[Route("/login", RouteMethod::GET)]
+    #[Get("/login")]
     public function loginIndex(Request $request, Response $response): void
     {
         $response->render('login/index.html.twig');
     }
 
-    #[Route("/login", RouteMethod::POST)]
+    #[Post("/login")]
     public function loginCheck(Request $request, Response $response)
     {
         $loginData = json_decode($request->getContent(), true);
@@ -30,9 +32,7 @@ class LoginController extends AbstractController
         }
 
         $repository = $this->getRepository(UserModel::class);
-        $userFound = $repository->findBy([
-            "email" => $loginData['email']
-        ]);
+        $userFound = $repository->findBy([ "email" => $loginData['email'] ]);
 
         if (count($userFound)) {
             if ($userFound['password'] !== $loginData['password']) {
@@ -46,7 +46,7 @@ class LoginController extends AbstractController
         return $response->json($userFound);
     }
 
-    #[Route("/logout", RouteMethod::GET)]
+    #[Get("/logout")]
     public function logoutIndex(Request $request, Response $response): void
     {
         session_destroy();
