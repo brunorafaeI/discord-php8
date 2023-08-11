@@ -5,7 +5,7 @@ namespace Common\Attributes;
 use Common\Enums\RouteMethod;
 
 #[\Attribute(\Attribute::TARGET_METHOD)]
-readonly class Route
+class Route
 {
     public function __construct(
         private string $path,
