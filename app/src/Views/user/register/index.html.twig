@@ -1,19 +1,16 @@
 {% extends 'base.html.twig' %}
 
 {% block styles %}
-  <link rel="stylesheet" href="/assets?css=login">
+  <link rel="stylesheet" href="/assets?css=user-register">
 {% endblock %}
 
 {% block main %}
-  <div class="main-login">
-    <section>
-      <img class="image" src="/assets?svg=animate2" alt="animacao">
-    </section>
+  <div class="main-user-register">
   
-    <section class="card-login">
-      <h2>Login</h2>
+    <section class="card-user-register">
+      <h2>Registrar</h2>
 
-      <form action="javascript:void(0)" name="form_login" onsubmit="OBJLogin.sendForm(this)">
+      <form action="javascript:void(0)" name="form_user_register" onsubmit="OBJUser.register(this)">
         <div class="textfield">
           <label for="email"></label>
           <input placeholder="Email" type="email" id="email" name="email" required />
@@ -23,14 +20,14 @@
           <input placeholder="Password" type="password" id="password" name="password" required />
         </div>
         <br>
-        <button class="btn-login" type="submit">Login</button>
+        <button class="btn-user-register" type="submit">registrar</button>
       </form>
   
-      <p>Don't have a account? <a href="/users/register">SignUp now</a></p>
+      <p><a href="/login">SignIn</a></p>
     </section>
   </div>
 {% endblock %}
 
 {% block scripts %}
-  <script src="/assets?js=login"></script>
+  <script src="/assets?js=user-register"></script>
 {% endblock %}

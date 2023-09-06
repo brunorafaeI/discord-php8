@@ -26,17 +26,38 @@ class UserController extends AbstractController
             $repository = $this->getRepository(UserModel::class);
             $userFound = $repository->find($idUser);
         } catch (\Exception $e) {
-            throw new \HttpException($e->getMessage());
+            echo $e->getMessage();
         }
 
         return $response->setStatusCode(200)->json($userFound);
     }
 
-    #[Post("/users/register")]
-    public function userRegister(Request $request, Response $response)
+    #[Post("/users/add")]
+    public function userCreate(Request $request, Response $response)
     {
         $userData = json_decode($request->getContent(), true);
-        dump($userData);
+        
+        if (!$userData['email'] || !$userData['password']) {
+            throw new \InvalidArgumentException("Invalid email/password parameter.");
+        }
+
+        try {
+            $newUser = new UserModel($userData, $user_type = 'User');
+            
+            $repository = $this->getRepository(UserModel::class);
+            $userCreated = $repository->save($newUser);
+
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+        }
+
+        return $response->setStatusCode(201)->json($userCreated);
+    }
+
+    #[Get("/users/register")]
+    public function userRegister(Request $request, Response $response): void
+    {
+        $response->render('user/register/index.html.twig');
     }
 
     #[Get("/users/profile")]
