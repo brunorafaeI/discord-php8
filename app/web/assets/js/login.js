@@ -1,4 +1,4 @@
-const OBJLogin = {
+window.OBJLogin = {
   
   async sendForm(formLogin) {
     
